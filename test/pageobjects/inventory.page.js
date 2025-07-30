@@ -23,7 +23,7 @@ class inventoryPage extends page {
     }
 
     get sidebarLogoutLink() {
-        return $('a[id="logout_sidebar_link"]');
+        return $('a[data-test="logout-sidebar-link"]');
     }
 
     get inventoryItems() {
@@ -189,11 +189,11 @@ class inventoryPage extends page {
     }
 
     async sidebarLogoutClick() {
-        await this.sidebarLogoutLink().click
+        await this.sidebarLogoutLink.click();
     }
 
     async shoppingCartButtonClick() {
-        await this.shoppingCartLink().click
+        await this.shoppingCartLink.click();
     }
 
     open() {

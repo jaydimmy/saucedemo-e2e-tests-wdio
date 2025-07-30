@@ -45,6 +45,7 @@ describe('Inventory functionality', () => {
         await cartPage.isLoaded();
         await cartPage.verifyProductInCart(productName);
         await cartPage.removeButtonClick();
+        await cartPage.verifyCartIsEmpty();
     });
 
     it('TC-6: Sorting', async () => {
