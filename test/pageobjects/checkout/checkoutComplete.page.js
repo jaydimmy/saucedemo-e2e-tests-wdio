@@ -1,7 +1,6 @@
-import {$, expect} from '@wdio/globals'
-import Page from '../page.js';
+import page from '../page.js';
 
-class CheckoutCompletePage extends Page {
+class checkoutCompletePage extends page {
     get completeHeader() {
         return $('h2[data-test="complete-header"]');
     }
@@ -22,6 +21,10 @@ class CheckoutCompletePage extends Page {
             'Your order has been dispatched, and will arrive just as fast as the pony can get there!');
         await expect(this.backHomeButton).toBeDisplayed();
     }
+
+    async clickBackHomeButton() {
+        await this.backHomeButton.click();
+    }
 }
 
-export default new CheckoutCompletePage();
+export default new checkoutCompletePage();

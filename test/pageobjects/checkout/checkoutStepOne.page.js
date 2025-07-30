@@ -1,7 +1,6 @@
-import {$, expect} from '@wdio/globals'
-import Page from '../page.js';
+import page from '../page.js';
 
-class CheckoutStepOnePage extends Page {
+class checkoutStepOnePage extends page {
     get firstNameInput() {
         return $('input[data-test="firstName"]');
     }
@@ -42,4 +41,4 @@ class CheckoutStepOnePage extends Page {
     }
 }
 
-export default new CheckoutStepOnePage();
+export default new checkoutStepOnePage();

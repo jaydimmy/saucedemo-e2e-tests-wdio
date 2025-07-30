@@ -1,7 +1,6 @@
-import {$, $$, expect} from '@wdio/globals'
-import Page from '../page.js';
+import page from '../page.js';
 
-class CheckoutStepTwoPage extends Page {
+class checkoutStepTwoPage extends page {
     get checkoutSummaryContainer() {
         return $('div[data-test="checkout-summary-container"]');
     }
@@ -12,14 +11,6 @@ class CheckoutStepTwoPage extends Page {
 
     get subtotalPrice() {
         return $('div[data-test="subtotal-label"]');
-    }
-
-    get taxPrice() {
-        return $('div[data-test="tax-label"]');
-    }
-
-    get totalPrice() {
-        return $('div[data-test="total-label"]');
     }
 
     async isLoaded() {
@@ -37,6 +28,10 @@ class CheckoutStepTwoPage extends Page {
         const actualSubtotal = parseFloat(subtotalText.replace('Item total: $', ''));
         await expect(actualSubtotal).toEqual(expectedPrice);
   }
+
+    async clickFinishButton() {
+            await this.finishButton.click();
+        }
 }
 
-export default new CheckoutStepTwoPage();
+export default new checkoutStepTwoPage();

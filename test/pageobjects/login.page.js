@@ -1,10 +1,9 @@
-import {$} from '@wdio/globals'
-import Page from './page.js';
+import page from './page.js';
 
 const LOGIN_ERROR_MESSAGE = 'Epic sadface: Username and password do not match any user in this service';
 const RED_HEX_COLOR = '#e2231a';
 
-class LoginPage extends Page {
+class loginPage extends page {
 
     get pageLogo() {
         return $('div[class="login_logo"]');
@@ -28,10 +27,6 @@ class LoginPage extends Page {
 
     get loginButton() {
         return $('input[data-test="login-button"]');
-    }
-
-    get errorMessage() {
-        return $('h3[data-test="error"]');
     }
 
     async isLoaded() {
@@ -58,7 +53,7 @@ class LoginPage extends Page {
 
         await expect(usernameBorderBottomColor.parsed.hex).toEqual(RED_HEX_COLOR);
         await expect(passwordBorderBottomColor.parsed.hex).toEqual(RED_HEX_COLOR);
-        await expect(this.errorMessage).toHaveText(LOGIN_ERROR_MESSAGE);
+        await this.verifyErrorMessageText(LOGIN_ERROR_MESSAGE);
     }
 
     async verifyLoginInputsAreEmpty()  {
@@ -71,4 +66,4 @@ class LoginPage extends Page {
     }
 }
 
-export default new LoginPage();
+export default new loginPage();

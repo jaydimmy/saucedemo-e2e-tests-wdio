@@ -1,5 +1,5 @@
-import LoginPage from '../pageobjects/login.page.js'
-import InventoryPage from "../pageobjects/inventory.page.js";
+import loginPage from '../pageobjects/login.page.js'
+import inventoryPage from "../pageobjects/inventory.page.js";
 
 const {
     VALID_USERNAME,
@@ -10,23 +10,23 @@ const {
 
 describe('Login functionality - User Authentication Tests', () => {
     beforeEach(async () => {
-        await LoginPage.open();
-        await LoginPage.isLoaded();
+        await loginPage.open();
+        await loginPage.isLoaded();
     });
 
     it('TC-1: Valid Login', async () => {
-        await LoginPage.login(VALID_USERNAME, VALID_PASSWORD)
-        await InventoryPage.isLoaded();
+        await loginPage.login(VALID_USERNAME, VALID_PASSWORD)
+        await inventoryPage.isLoaded();
     })
 
     it('TC-2: Login with invalid password', async () => {
-        await LoginPage.login(VALID_USERNAME, INVALID_PASSWORD)
-        await LoginPage.verifyLoginError();
+        await loginPage.login(VALID_USERNAME, INVALID_PASSWORD)
+        await loginPage.verifyLoginError();
     });
 
 
     it('TC-3: Login with invalid login', async () => {
-        await LoginPage.login(INVALID_USERNAME, VALID_PASSWORD)
-        await LoginPage.verifyLoginError();
+        await loginPage.login(INVALID_USERNAME, VALID_PASSWORD)
+        await loginPage.verifyLoginError();
     });
 })

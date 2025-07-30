@@ -1,7 +1,8 @@
-import {$, expect} from '@wdio/globals'
-import Page from './page.js';
+import page from './page.js';
 
-class CartPage extends Page {
+const  CART_EMPTY_ERROR_MESSAGE = 'Cart is empty';
+
+class cartPage extends page {
 
     get cartItems () {
         return $$('div[data-test="inventory-item"]');
@@ -35,9 +36,26 @@ class CartPage extends Page {
         await expect(foundProduct).toBe(true, `Product "${productName}" was not found in the cart.`);
     }
 
+    async verifyCartIsEmpty() {
+        await expect(this.cartItems)
+            .toBeElementsArrayOfSize(0, 'Expected cart to be empty, but items were found.');
+    }
+
+    async verifyCartEmptyErrorMessage() {
+        await this.verifyErrorMessageText(CART_EMPTY_ERROR_MESSAGE);
+    }
+
+    async checkoutButtonClick() {
+        await this.checkoutButton.click();
+    }
+
+    async removeButtonClick() {
+        await this.removeButton.click();
+    }
+
     open() {
         return super.open('cart.html');
     }
 }
 
-export default new CartPage();
+export default new cartPage();

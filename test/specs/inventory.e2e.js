@@ -1,9 +1,9 @@
-import InventoryPage from "../pageobjects/inventory.page.js";
-import LoginPage from "../pageobjects/login.page.js";
-import CartPage from "../pageobjects/cart.page.js";
-import CheckoutStepOnePage from "../pageobjects/checkout/checkoutStepOne.page.js";
-import CheckoutStepTwoPage from "../pageobjects/checkout/checkoutStepTwo.page.js";
-import CheckoutCompletePage from "../pageobjects/checkout/checkoutComplete.page.js";
+import inventoryPage from "../pageobjects/inventory.page.js";
+import loginPage from "../pageobjects/login.page.js";
+import cartPage from "../pageobjects/cart.page.js";
+import checkoutStepOnePage from "../pageobjects/checkout/checkoutStepOne.page.js";
+import checkoutStepTwoPage from "../pageobjects/checkout/checkoutStepTwo.page.js";
+import checkoutCompletePage from "../pageobjects/checkout/checkoutComplete.page.js";
 
 const {
     VALID_USERNAME,
@@ -12,91 +12,89 @@ const {
 
 describe('Inventory functionality', () => {
     beforeEach(async () => {
-        await LoginPage.open();
-        await LoginPage.isLoaded();
-        await LoginPage.login(VALID_USERNAME, VALID_PASSWORD);
+        await loginPage.open();
+        await loginPage.isLoaded();
+        await loginPage.login(VALID_USERNAME, VALID_PASSWORD);
 
-        await InventoryPage.isLoaded();
+        await inventoryPage.isLoaded();
     });
 
     it('TC-4: Logout', async () => {
-        await InventoryPage.openSidebarMenuAndVerify();
-        await InventoryPage.sidebarLogoutLink.click();
+        await inventoryPage.openSidebarMenuAndVerify();
+        await inventoryPage.sidebarLogoutClick();
 
-        await LoginPage.isLoaded();
-        await LoginPage.verifyLoginInputsAreEmpty()
+        await loginPage.isLoaded();
+        await loginPage.verifyLoginInputsAreEmpty()
     })
 
     it('TC-5: Saving the card after logout ', async () => {
 
         const {
             productName
-        } = await InventoryPage.addRandomProductToCartAndVerifyBadge()
-        await InventoryPage.openSidebarMenuAndVerify();
-        await InventoryPage.sidebarLogoutLink.click();
+        } = await inventoryPage.addRandomProductToCartAndVerifyBadge()
+        await inventoryPage.openSidebarMenuAndVerify();
+        await inventoryPage.sidebarLogoutClick();
 
-        await LoginPage.isLoaded();
-        await LoginPage.verifyLoginInputsAreEmpty()
-        await LoginPage.login(VALID_USERNAME, VALID_PASSWORD);
+        await loginPage.isLoaded();
+        await loginPage.verifyLoginInputsAreEmpty()
+        await loginPage.login(VALID_USERNAME, VALID_PASSWORD);
 
-        await InventoryPage.isLoaded();
-        await InventoryPage.shoppingCartLink.click();
+        await inventoryPage.isLoaded();
+        await inventoryPage.shoppingCartButtonClick();
 
-        await CartPage.isLoaded();
-        await CartPage.verifyProductInCart(productName);
-        await CartPage.removeButton.click();
+        await cartPage.isLoaded();
+        await cartPage.verifyProductInCart(productName);
+        await cartPage.removeButtonClick();
     });
 
     it('TC-6: Sorting', async () => {
-        await InventoryPage.selectSortOption('az');
-        await InventoryPage.verifySortingByNameAsc();
+        await inventoryPage.selectSortOption('az');
+        await inventoryPage.verifySortingByNameAsc();
 
-        await InventoryPage.selectSortOption('za');
-        await InventoryPage.verifySortingByNameDesc();
+        await inventoryPage.selectSortOption('za');
+        await inventoryPage.verifySortingByNameDesc();
 
-        await InventoryPage.selectSortOption('lohi');
-        await InventoryPage.verifySortingByPriceAsc();
+        await inventoryPage.selectSortOption('lohi');
+        await inventoryPage.verifySortingByPriceAsc();
 
-        await InventoryPage.selectSortOption('hilo');
-        await InventoryPage.verifySortingByPriceDesc();
+        await inventoryPage.selectSortOption('hilo');
+        await inventoryPage.verifySortingByPriceDesc();
     });
 
     it('TC-7: Footer Links', async () => {
-        await InventoryPage.verifyFooterSocialLinks();
+        await inventoryPage.verifyFooterSocialLinks();
     });
 
     it('TC-8: Valid Checkout', async () => {
         const {
             productName,
             productPrice
-        } = await InventoryPage.addRandomProductToCartAndVerifyBadge();
-        await InventoryPage.shoppingCartLink.click();
+        } = await inventoryPage.addRandomProductToCartAndVerifyBadge();
+        await inventoryPage.shoppingCartButtonClick();
 
-        await CartPage.isLoaded();
-        await CartPage.verifyProductInCart(productName);
-        await CartPage.checkoutButton.click();
+        await cartPage.isLoaded();
+        await cartPage.verifyProductInCart(productName);
+        await cartPage.checkoutButtonClick();
 
-        await CheckoutStepOnePage.isLoaded();
-        await CheckoutStepOnePage.fillInCheckoutInfo('Test', 'User', '12345');
+        await checkoutStepOnePage.isLoaded();
+        await checkoutStepOnePage.fillInCheckoutInfo('Test', 'User', '12345');
 
-        await CheckoutStepTwoPage.isLoaded();
-        await CheckoutStepTwoPage.verifyProductPriceOnOverview(productPrice);
-        await CheckoutStepTwoPage.finishButton.click();
+        await checkoutStepTwoPage.isLoaded();
+        await checkoutStepTwoPage.verifyProductPriceOnOverview(productPrice);
+        await checkoutStepTwoPage.clickFinishButton();
 
-        await CheckoutCompletePage.isLoaded();
-        await CheckoutCompletePage.backHomeButton.click();
+        await checkoutCompletePage.isLoaded();
+        await checkoutCompletePage.clickBackHomeButton();
 
-        await InventoryPage.isLoaded();
-        await expect(InventoryPage.shoppingCartBadge).not.toBeExisting();
+        await inventoryPage.isLoaded();
+        await expect(inventoryPage.shoppingCartBadge).not.toBeExisting();
     });
 
-    // it('TC-9: Checkout without products', async () => {
-    //     Click on the "Cart" button at the top right corner
-    //     Cart page is displayed, products are not displayed
-    //     Click on the "Checkout" button
-    //     User are located on the "Cart" Page, error message "Cart is empty" are displayed
-    //
-    //     "Clicking the 'Checkout' button successfully redirects to the 'Checkout: Your Information' page  without errors.."
-    // });
-
+    it('TC-9: Checkout without products', async () => {
+        await inventoryPage.shoppingCartButtonClick();
+        await cartPage.isLoaded();
+        await cartPage.verifyCartIsEmpty();
+        await cartPage.checkoutButtonClick();
+        await cartPage.verifyCartEmptyErrorMessage();
+    });
 })

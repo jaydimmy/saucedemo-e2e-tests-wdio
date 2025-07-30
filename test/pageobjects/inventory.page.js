@@ -1,7 +1,6 @@
-import {$, $$, expect} from '@wdio/globals'
-import Page from './page.js';
+import page from './page.js';
 
-class InventoryPage extends Page {
+class inventoryPage extends page {
 
     get sidebarMenuButton() {
         return $('button[id="react-burger-menu-btn"]');
@@ -189,9 +188,17 @@ class InventoryPage extends Page {
         }
     }
 
+    async sidebarLogoutClick() {
+        await this.sidebarLogoutLink().click
+    }
+
+    async shoppingCartButtonClick() {
+        await this.shoppingCartLink().click
+    }
+
     open() {
         return super.open('inventory.html');
     }
 }
 
-export default new InventoryPage();
+export default new inventoryPage();
